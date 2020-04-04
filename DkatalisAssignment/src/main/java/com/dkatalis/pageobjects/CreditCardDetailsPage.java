@@ -1,6 +1,7 @@
 package com.dkatalis.pageobjects;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,22 +32,22 @@ public class CreditCardDetailsPage {
 	CreditCardDetailsPage(WebDriver driver)
 	{
 		this.driver=driver;
-		PageFactory.initElements(driver, CreditCardDetailsPage.class);
+		PageFactory.initElements(driver, this);
 	}
 	
-	void fillcreditCardDetails(HashMap creditCardDetails)
+	public void fillcreditCardDetails(Map<String,String> creditCardDetails)
 	{
 		cardNumberTextbox.sendKeys(creditCardDetails.get("CardNumber"));
 		expiryDateTextbox.sendKeys(creditCardDetails.get("ExpiryDate"));
 		cvvTextbox.sendKeys(creditCardDetails.get("CVV"));
 	}
 	
-	void uncheckPromoCheckbox()
+	public void uncheckPromoCheckbox()
 	{
 		promoWeekendCheckbox.click();
 	}
 	
-	IssuingBankPage clickPayNowButton()
+	public IssuingBankPage clickPayNowButton()
 	{
 		payNowButton.click();
 		return new IssuingBankPage(driver);

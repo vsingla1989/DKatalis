@@ -14,10 +14,10 @@ public class SelectPaymentPage {
 	SelectPaymentPage(WebDriver driver)
 	{
 		this.driver=driver;
-		PageFactory.initElements(driver, SelectPaymentPage.class);
+		PageFactory.initElements(driver, this);
 	}
 	
-	CreditCardDetailsPage clickCreditCardOption()
+	public CreditCardDetailsPage clickCreditCardOption()
 	{
 		creditCard.click();
 		return new CreditCardDetailsPage(driver);

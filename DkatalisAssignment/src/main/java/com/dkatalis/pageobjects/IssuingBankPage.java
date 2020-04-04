@@ -1,6 +1,7 @@
 package com.dkatalis.pageobjects;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,15 +20,15 @@ public class IssuingBankPage {
 	IssuingBankPage(WebDriver driver)
 	{
 		this.driver=driver;
-		PageFactory.initElements(driver, IssuingBankPage.class);
+		PageFactory.initElements(driver, this);
 	}
 	
-	void enterPassword(HashMap creditCardDetails)
+	public void enterPassword(Map<String,String> creditCardDetails)
 	{
 		passwordText.sendKeys(creditCardDetails.get("Password"));
 	}
 	
-	HomePage clickOkButton()
+	public HomePage clickOkButton()
 	{
 		okButton.click();
 		return new HomePage(driver);

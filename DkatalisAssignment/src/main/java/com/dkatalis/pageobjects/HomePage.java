@@ -9,21 +9,21 @@ public class HomePage {
 	WebDriver driver;
 	
 	@FindBy(xpath="//a[@class='btn buy']")
-	WebElement buyNowButton;
+	public WebElement buyNowButton;
 	
 	@FindBy(xpath="//div[@class='trans-status trans-success']/span[1]")
-	WebElement successMsg1;
+	public WebElement successMsg1;
 	
 	@FindBy(xpath="//div[@class='trans-status trans-success']/span[2]")
-	WebElement successMsg2;
+	public WebElement successMsg2;
 	
-	HomePage(WebDriver driver)
+	public HomePage(WebDriver driver)
 	{
 		this.driver=driver;
-		PageFactory.initElements(driver, HomePage.class);
+		PageFactory.initElements(driver, this);
 	}
 	
-	ShoppingCartPage clickBuyNowButton()
+	public ShoppingCartPage clickBuyNowButton()
 	{
 		buyNowButton.click();
 		return new ShoppingCartPage(driver);

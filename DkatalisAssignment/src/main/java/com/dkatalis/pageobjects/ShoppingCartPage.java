@@ -1,6 +1,7 @@
 package com.dkatalis.pageobjects;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,24 +32,30 @@ public class ShoppingCartPage {
 	@FindBy(xpath="//div[@class='cart-checkout']")
 	WebElement cartCheckoutButton;
 	
-	ShoppingCartPage(WebDriver driver)
+	public ShoppingCartPage(WebDriver driver)
 	{
 		this.driver=driver;
-		PageFactory.initElements(driver, ShoppingCartPage.class);
+		PageFactory.initElements(driver, this);
 	}
 	
-	void fillCustomerDetails(HashMap custDetails)
+	public void fillCustomerDetails(Map<String,String> custDetails)
 	{
+		nameTextbox.clear();
 		nameTextbox.sendKeys(custDetails.get("Name"));
+		emailTextbox.clear();
 		emailTextbox.sendKeys(custDetails.get("Email"));
+		phoneNoTextbox.clear();
 		phoneNoTextbox.sendKeys(custDetails.get("PhoneNo"));
+		cityTextbox.clear();
 		cityTextbox.sendKeys(custDetails.get("City"));
+		addressTextArea.clear();
 		addressTextArea.sendKeys(custDetails.get("Address"));
+		postalCodeTextBox.clear();
 		postalCodeTextBox.sendKeys(custDetails.get("PostalCode"));
 	}
 	
 	
-	OrderSummaryPage clickCheckoutButton()
+	public OrderSummaryPage clickCheckoutButton()
 	{
 		cartCheckoutButton.click();
 		return new OrderSummaryPage(driver);

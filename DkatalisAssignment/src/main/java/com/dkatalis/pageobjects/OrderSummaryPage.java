@@ -11,13 +11,13 @@ public class OrderSummaryPage {
 	@FindBy(xpath="//a[@class='button-main-content']")
 	WebElement continueOrderButton;
 	
-	OrderSummaryPage(WebDriver driver)
+	public OrderSummaryPage(WebDriver driver)
 	{
 		this.driver=driver;
-		PageFactory.initElements(driver, OrderSummaryPage.class);
+		PageFactory.initElements(driver, this);
 	}
 
-	SelectPaymentPage clickContinueButton()
+	public SelectPaymentPage clickContinueButton()
 	{
 		continueOrderButton.click();
 		return new SelectPaymentPage(driver);
