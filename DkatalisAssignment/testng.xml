@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Suites">
+<parameter name="Browser" value="chrome"/>
+<parameter name="Frontend_Server" value="https://demo.midtrans.com/"/>
+<parameter name="Pageload_Timeout" value="5"/>
+<parameter name="Implicit_Wait" value="5"/>
+
+<test name="Tests">
+<classes>
+	<class name="com.dkatalis.uitestcases.CheckoutFlowsTest">
+	</class>
+</classes>
+</test>
+</suite>
