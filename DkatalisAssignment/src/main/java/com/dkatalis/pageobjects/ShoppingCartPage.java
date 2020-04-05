@@ -9,28 +9,28 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class ShoppingCartPage {
-	WebDriver driver;
+	private WebDriver driver;
 	
 	@FindBy(xpath="//input[@data-reactid='.0.0.1.0.3.0.0.0.1.0']")
-	WebElement nameTextbox;
+	private WebElement nameTextbox;
 	
 	@FindBy(xpath="//input[@data-reactid='.0.0.1.0.3.0.0.1.1.0']")
-	WebElement emailTextbox;
+	private WebElement emailTextbox;
 	
 	@FindBy(xpath="//input[@data-reactid='.0.0.1.0.3.0.0.2.1.0']")
-	WebElement phoneNoTextbox;
+	private WebElement phoneNoTextbox;
 	
 	@FindBy(xpath="//input[@data-reactid='.0.0.1.0.3.0.0.3.1.0']")
-	WebElement cityTextbox;
+	private WebElement cityTextbox;
 	
 	@FindBy(xpath="//textarea[@data-reactid='.0.0.1.0.3.0.0.4.1.0']")
-	WebElement addressTextArea;
+	private WebElement addressTextArea;
 	
 	@FindBy(xpath="//input[@data-reactid='.0.0.1.0.3.0.0.5.1.0']")
-	WebElement postalCodeTextBox;
+	private WebElement postalCodeTextBox;
 	
 	@FindBy(xpath="//div[@class='cart-checkout']")
-	WebElement cartCheckoutButton;
+	private WebElement cartCheckoutButton;
 	
 	public ShoppingCartPage(WebDriver driver)
 	{
@@ -53,8 +53,7 @@ public class ShoppingCartPage {
 		postalCodeTextBox.clear();
 		postalCodeTextBox.sendKeys(custDetails.get("PostalCode"));
 	}
-	
-	
+
 	public OrderSummaryPage clickCheckoutButton()
 	{
 		cartCheckoutButton.click();

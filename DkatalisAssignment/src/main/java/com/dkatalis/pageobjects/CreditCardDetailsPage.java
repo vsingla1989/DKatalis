@@ -1,33 +1,35 @@
 package com.dkatalis.pageobjects;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class CreditCardDetailsPage {
-	WebDriver driver;
+	private WebDriver driver;
 	
 	@FindBy(xpath="//div[@class='notice danger']/div[@class='content']")
-	WebElement invalidCardMsg;
+	private WebElement invalidCardMsg;
 	
 	@FindBy(xpath="//input[@name='cardnumber']")
-	WebElement cardNumberTextbox;
+	private WebElement cardNumberTextbox;
 	
 	@FindBy(xpath="//div[@class='input-group col-xs-7']/input")
-	WebElement expiryDateTextbox;
+	private WebElement expiryDateTextbox;
 	
 	@FindBy(xpath="//div[@class='input-group col-xs-5']/input")
-	WebElement cvvTextbox;
+	private WebElement cvvTextbox;
 
-	@FindBy(xpath="//label[text()='Promo Weekend']/input[@type='checkbox']")
-	WebElement promoWeekendCheckbox;
+	@FindBy(xpath="//input[@type='checkbox' and @name='promo']")
+	private List<WebElement> promoCheckboxes;
 	
 	@FindBy(xpath="//div[@class='text-button-main']/span")
-	WebElement payNowButton;
+	private WebElement payNowButton;
 	
 	CreditCardDetailsPage(WebDriver driver)
 	{
@@ -42,14 +44,19 @@ public class CreditCardDetailsPage {
 		cvvTextbox.sendKeys(creditCardDetails.get("CVV"));
 	}
 	
-	public void uncheckPromoCheckbox()
+	public void uncheckPromoCheckboxes()
 	{
-		promoWeekendCheckbox.click();
+		for(WebElement promoCheckbox : promoCheckboxes)
+		{
+			if(promoCheckbox.isSelected())
+				promoCheckbox.click();
+		}
 	}
 	
 	public IssuingBankPage clickPayNowButton()
 	{
-		payNowButton.click();
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", payNowButton);
+		//payNowButton.click();
 		return new IssuingBankPage(driver);
 	}
 

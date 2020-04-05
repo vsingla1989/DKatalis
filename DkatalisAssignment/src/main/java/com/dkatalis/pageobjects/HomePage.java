@@ -6,16 +6,16 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class HomePage {
-	WebDriver driver;
+	private WebDriver driver;
 	
 	@FindBy(xpath="//a[@class='btn buy']")
-	public WebElement buyNowButton;
+	private  WebElement buyNowButton;
 	
 	@FindBy(xpath="//div[@class='trans-status trans-success']/span[1]")
-	public WebElement successMsg1;
+	private  WebElement successMsg1;
 	
 	@FindBy(xpath="//div[@class='trans-status trans-success']/span[2]")
-	public WebElement successMsg2;
+	private  WebElement successMsg2;
 	
 	public HomePage(WebDriver driver)
 	{
@@ -27,6 +27,16 @@ public class HomePage {
 	{
 		buyNowButton.click();
 		return new ShoppingCartPage(driver);
+	}
+	
+	public String getMessagePart1()
+	{
+		return successMsg1.getText();
+	}
+	
+	public String getMessagePart2()
+	{
+		return successMsg2.getText();
 	}
 	
 }

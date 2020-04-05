@@ -6,10 +6,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class SelectPaymentPage {
-	WebDriver driver;
+	private WebDriver driver;
 	
 	@FindBy(xpath="//a[@href='#/credit-card']")
-	WebElement creditCard;
+	private WebElement creditCard;
 	
 	SelectPaymentPage(WebDriver driver)
 	{
