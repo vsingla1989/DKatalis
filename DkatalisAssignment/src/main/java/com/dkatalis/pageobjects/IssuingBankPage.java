@@ -34,7 +34,7 @@ public class IssuingBankPage {
 	{
 		Thread.sleep(3000);
 		FrameUtils.switchToFrame(driver,frame);
-		driver.switchTo().frame(frame);
+		//driver.switchTo().frame(frame);
 		passwordText.sendKeys(creditCardDetails.get("Password"));
 	}
 	
