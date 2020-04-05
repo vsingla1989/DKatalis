@@ -24,52 +24,85 @@ import com.dkatalis.utils.CSVReader;
 
 public class CheckoutFlowsTest extends BaseUITest{
 
+	final private String expectedMgs1 = "Thank you for your purchase.";
+	final private String expectedMgs2 = "Get a nice sleep.";
 	
-	/*@BeforeMethod
-	void beforeMethodUI(Method m)
-	{
-		System.out.println("Another Before Method");
-		test= report.startTest(m.getName());
-	}
 	
-	@AfterMethod
-	void afterMethodUI(ITestResult result)
-	{
-		System.out.println("Another After Method");
-		report.endTest(test);
-	}*/
-	
-	@Test
+	@Test(description="Verify user is able to successfully place an order for purchasing a pillow")
 	void purchasePillowCreditCard() throws InterruptedException, IOException
 	{
-		System.out.println("here1");
 		
 		Map<String,String> customerData= CSVReader.readCSV(System.getProperty("user.dir")+"//src//main//java//com//dkatalis//resources//CustomerDetails.csv", 1);
 		Map<String,String> creditCardData= CSVReader.readCSV(System.getProperty("user.dir")+"//src//main//java//com//dkatalis//resources//CreditCardDetails.csv", 1);
-		
-		System.out.println("here2");
-		
 		HomePage homePage = new HomePage(driver);
+		
+		reportLog("Click on Buy Now button");
 		ShoppingCartPage shoppingCartPage= homePage.clickBuyNowButton();
+		
+		reportLog("Input the customer details");
 		shoppingCartPage.fillCustomerDetails(customerData);
+		
+		reportLog("Click on Checkout button");
 		OrderSummaryPage orderSummaryPage= shoppingCartPage.clickCheckoutButton();
+		
+		reportLog("Click on Continue button");
 		SelectPaymentPage selectPaymentPage= orderSummaryPage.clickContinueButton();
+		
+		reportLog("Choose Credit Card by clicking on it");
 		CreditCardDetailsPage creditCardDetailsPage= selectPaymentPage.clickCreditCardOption();
+		
+		reportLog("Input credit card details, uncheck the checked promos and click on Pay Now button");
 		creditCardDetailsPage.fillcreditCardDetails(creditCardData);
-		creditCardDetailsPage.uncheckPromoCheckbox();
+		creditCardDetailsPage.uncheckPromoCheckboxes();
 		IssuingBankPage issuingBankPage= creditCardDetailsPage.clickPayNowButton();
+		
+		reportLog("Enter the password and click on Ok button");
 		issuingBankPage.enterPassword(creditCardData);
 		homePage= issuingBankPage.clickOkButton();
 		
-		Assert.assertEquals(homePage.successMsg1, "Thank you for your purchase.");
-		Assert.assertEquals(homePage.successMsg2, "Get a nice sleep.");
+		reportLog("Verify success message on homepage");
+		String actualMgs1=homePage.getMessagePart1();
+		String actualMgs2=homePage.getMessagePart2();
+		Assert.assertEquals(actualMgs1,expectedMgs1);
+		Assert.assertEquals(actualMgs2,expectedMgs2);
 	}
 	
-	//@Test
-	void purchasePillowCreditCardNegative()
+	@Test(description="Verify user is not able to place an order when incorect credit card innfo is given")
+	void purchasePillowCreditCardNegative() throws InterruptedException, IOException
 	{
-		System.out.println("Hello");
-		System.out.println(Thread.currentThread().getId());
+		Map<String,String> customerData= CSVReader.readCSV(System.getProperty("user.dir")+"//src//main//java//com//dkatalis//resources//CustomerDetails.csv", 1);
+		Map<String,String> creditCardData= CSVReader.readCSV(System.getProperty("user.dir")+"//src//main//java//com//dkatalis//resources//CreditCardDetails.csv", 2);
+		HomePage homePage = new HomePage(driver);
+		
+		reportLog("Click on Buy Now button");
+		ShoppingCartPage shoppingCartPage= homePage.clickBuyNowButton();
+		
+		reportLog("Input the customer details");
+		shoppingCartPage.fillCustomerDetails(customerData);
+		
+		reportLog("Click on Checkout button");
+		OrderSummaryPage orderSummaryPage= shoppingCartPage.clickCheckoutButton();
+		
+		reportLog("Click on Continue button");
+		SelectPaymentPage selectPaymentPage= orderSummaryPage.clickContinueButton();
+		
+		reportLog("Choose Credit Card by clicking on it");
+		CreditCardDetailsPage creditCardDetailsPage= selectPaymentPage.clickCreditCardOption();
+		
+		reportLog("Input credit card details, uncheck the checked promos and click on Pay Now button");
+		creditCardDetailsPage.fillcreditCardDetails(creditCardData);
+		creditCardDetailsPage.uncheckPromoCheckboxes();
+		IssuingBankPage issuingBankPage= creditCardDetailsPage.clickPayNowButton();
+		
+		reportLog("Enter the password and click on Ok button");
+		issuingBankPage.enterPassword(creditCardData);
+		homePage= issuingBankPage.clickOkButton();
+		
+		reportLog("Verify success message on homepage");
+		String actualMgs1=homePage.getMessagePart1();
+		String actualMgs2=homePage.getMessagePart2();
+		Assert.assertEquals(actualMgs1,expectedMgs1);
+		Assert.assertEquals(actualMgs2,expectedMgs2);
 	}
 	
 	

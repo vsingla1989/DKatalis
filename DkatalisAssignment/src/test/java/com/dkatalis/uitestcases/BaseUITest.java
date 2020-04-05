@@ -1,5 +1,6 @@
 package com.dkatalis.uitestcases;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
@@ -17,8 +18,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
+import com.dkatalis.utils.ScreenShot;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 
 public class BaseUITest {
 	protected WebDriver driver;
@@ -28,7 +31,6 @@ public class BaseUITest {
 	int pageLoadTimeout;
 	int implicitWait;
 	String frontendURL;
-	//protected SoftAssert assertion;
 	
 	BaseUITest() {
 		System.out.println("Base contructor");
@@ -36,7 +38,6 @@ public class BaseUITest {
 	
 	@BeforeSuite(alwaysRun=true)
 	public void beforeTestUI(ITestContext context) {
-		//Logger.getLogger("org.apache.http").setLevel(Level.ERROR);
 		
 		//Getting values from testng.xml
 		System.out.println("Before Suite");
@@ -45,24 +46,14 @@ public class BaseUITest {
 		implicitWait = Integer.parseInt(context.getCurrentXmlTest().getParameters().get("Implicit_Wait"));
 		frontendURL = context.getCurrentXmlTest().getParameters().get("Frontend_Server");
 		
-		
-		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\java\\com\\dkatalis\\resources\\chromedriver.exe");
-		
-		/*System.out.println("here1");
 		if(browser.equalsIgnoreCase("chrome"))
 		{
 			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\java\\com\\dkatalis\\resources\\chromedriver.exe");
-			driver = new ChromeDriver();
-			System.out.println("here3");
 		}
 		else if(browser.equalsIgnoreCase("firefox"))
 		{
 			System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\src\\main\\java\\com\\dkatalis\\resources\\geckodriver.exe");
-			driver = new FirefoxDriver();
-			System.out.println("here2");
 		}
-		
-		*/
 		
 		report=new ExtentReports(System.getProperty("user.dir")+"\\target\\ExtentReport.html",true);
 		report.addSystemInfo("Env","QA");
@@ -82,19 +73,41 @@ public class BaseUITest {
 	{
 		System.out.println("Before Method");
 		test= report.startTest(m.getName());
-		driver = new ChromeDriver();
+		
+		if(browser.equalsIgnoreCase("chrome"))
+			driver = new ChromeDriver();
+		else if(browser.equalsIgnoreCase("firefox"))
+			driver = new FirefoxDriver();
 		driver.manage().window().maximize();
+		driver.manage().window().fullscreen();
 		driver.manage().timeouts().pageLoadTimeout(pageLoadTimeout, TimeUnit.SECONDS);
 		driver.manage().timeouts().implicitlyWait(implicitWait, TimeUnit.SECONDS);
 		driver.get(frontendURL);
 	}
 	
 	@AfterMethod(alwaysRun=true)
-	void afterMethodUI(ITestResult result)
+	void afterMethodUI(ITestResult result) throws IOException
 	{
 		System.out.println("After Method");
+		if(result.getStatus()==ITestResult.FAILURE)
+		{
+			test.log(LogStatus.FAIL, test.addScreenCapture(ScreenShot.getScreenshot(driver)));	
+			test.log(LogStatus.FAIL, result.getThrowable());
+			test.log(LogStatus.FAIL, result.getName());
+		}
+		if(result.getStatus()==ITestResult.SUCCESS)
+		{
+			test.log(LogStatus.PASS, result.getName());
+		}
+		if(result.getStatus()==ITestResult.SKIP)
+		{
+			test.log(LogStatus.SKIP, result.getName());
+		}
 		report.endTest(test);
 		driver.close();
 	}
 
+	public void reportLog(String message) {    
+	    test.log(LogStatus.INFO, message);
+	}
 }
