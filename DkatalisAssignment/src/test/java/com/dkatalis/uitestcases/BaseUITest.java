@@ -41,15 +41,15 @@ public class BaseUITest {
 		
 		if(browser.equalsIgnoreCase("chrome"))
 		{
-			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\java\\com\\dkatalis\\resources\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"//src//main//java//com//dkatalis//resources//chromedriver.exe");
 		}
 		else if(browser.equalsIgnoreCase("firefox"))
 		{
-			System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\src\\main\\java\\com\\dkatalis\\resources\\geckodriver.exe");
+			System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"//src//main//java//com//dkatalis//resources//geckodriver.exe");
 		}
 		
 		//Configuring extent reports
-		report=new ExtentReports(System.getProperty("user.dir")+"\\target\\ExtentReport.html",true);
+		report=new ExtentReports(System.getProperty("user.dir")+"//target//ExtentReport.html",true);
 		report.addSystemInfo("Env","QA");
 		report.addSystemInfo("Url", frontendURL);
 	}
