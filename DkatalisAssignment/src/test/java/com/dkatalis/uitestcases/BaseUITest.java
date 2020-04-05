@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -31,16 +29,11 @@ public class BaseUITest {
 	int pageLoadTimeout;
 	int implicitWait;
 	String frontendURL;
-	
-	BaseUITest() {
-		System.out.println("Base contructor");
-	}
+
 	
 	@BeforeSuite(alwaysRun=true)
 	public void beforeTestUI(ITestContext context) {
-		
-		//Getting values from testng.xml
-		System.out.println("Before Suite");
+		//Getting values of parameters from testng.xml
 		browser= context.getCurrentXmlTest().getParameters().get("Browser");
 		pageLoadTimeout = Integer.parseInt(context.getCurrentXmlTest().getParameters().get("Pageload_Timeout"));
 		implicitWait = Integer.parseInt(context.getCurrentXmlTest().getParameters().get("Implicit_Wait"));
@@ -55,6 +48,7 @@ public class BaseUITest {
 			System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\src\\main\\java\\com\\dkatalis\\resources\\geckodriver.exe");
 		}
 		
+		//Configuring extent reports
 		report=new ExtentReports(System.getProperty("user.dir")+"\\target\\ExtentReport.html",true);
 		report.addSystemInfo("Env","QA");
 		report.addSystemInfo("Url", frontendURL);
@@ -63,7 +57,6 @@ public class BaseUITest {
 	@AfterSuite(alwaysRun=true)
 	void afterTestSuite()
 	{
-		System.out.println("After Suite");
 		report.flush();
 		report.close();
 	}
@@ -71,9 +64,9 @@ public class BaseUITest {
 	@BeforeMethod(alwaysRun=true)
 	void beforeMethodUI(Method m)
 	{
-		System.out.println("Before Method");
 		test= report.startTest(m.getName());
 		
+		//instantiating webdriver object based on value of browser
 		if(browser.equalsIgnoreCase("chrome"))
 			driver = new ChromeDriver();
 		else if(browser.equalsIgnoreCase("firefox"))
@@ -88,7 +81,6 @@ public class BaseUITest {
 	@AfterMethod(alwaysRun=true)
 	void afterMethodUI(ITestResult result) throws IOException
 	{
-		System.out.println("After Method");
 		if(result.getStatus()==ITestResult.FAILURE)
 		{
 			test.log(LogStatus.FAIL, test.addScreenCapture(ScreenShot.getScreenshot(driver)));	

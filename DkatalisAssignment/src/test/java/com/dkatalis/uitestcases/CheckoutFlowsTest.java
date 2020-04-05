@@ -31,7 +31,7 @@ public class CheckoutFlowsTest extends BaseUITest{
 	@Test(description="Verify user is able to successfully place an order for purchasing a pillow")
 	void purchasePillowCreditCard() throws InterruptedException, IOException
 	{
-		
+		//Fetching Customer and Credit card details from corresponding datasheets
 		Map<String,String> customerData= CSVReader.readCSV(System.getProperty("user.dir")+"//src//main//java//com//dkatalis//resources//CustomerDetails.csv", 1);
 		Map<String,String> creditCardData= CSVReader.readCSV(System.getProperty("user.dir")+"//src//main//java//com//dkatalis//resources//CreditCardDetails.csv", 1);
 		HomePage homePage = new HomePage(driver);
@@ -70,6 +70,7 @@ public class CheckoutFlowsTest extends BaseUITest{
 	@Test(description="Verify user is not able to place an order when incorect credit card innfo is given")
 	void purchasePillowCreditCardNegative() throws InterruptedException, IOException
 	{
+		//Fetching Customer and Credit card details from corresponding datasheets
 		Map<String,String> customerData= CSVReader.readCSV(System.getProperty("user.dir")+"//src//main//java//com//dkatalis//resources//CustomerDetails.csv", 1);
 		Map<String,String> creditCardData= CSVReader.readCSV(System.getProperty("user.dir")+"//src//main//java//com//dkatalis//resources//CreditCardDetails.csv", 2);
 		HomePage homePage = new HomePage(driver);

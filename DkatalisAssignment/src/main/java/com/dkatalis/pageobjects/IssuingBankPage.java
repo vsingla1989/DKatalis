@@ -32,7 +32,12 @@ public class IssuingBankPage {
 	
 	public void enterPassword(Map<String,String> creditCardDetails) throws InterruptedException
 	{
-		Thread.sleep(3000);
+		long current = System.currentTimeMillis();
+		while (true) {
+			if (current + 1000*3 < System.currentTimeMillis()) {
+				break;
+			}
+		}
 		FrameUtils.switchToFrame(driver,frame);
 		//driver.switchTo().frame(frame);
 		passwordText.sendKeys(creditCardDetails.get("Password"));
@@ -41,7 +46,12 @@ public class IssuingBankPage {
 	public HomePage clickOkButton() throws InterruptedException
 	{
 		okButton.click();
-		Thread.sleep(5000);
+		long current = System.currentTimeMillis();
+		while (true) {
+			if (current + 1000*5 < System.currentTimeMillis()) {
+				break;
+			}
+		}
 		FrameUtils.switchToMainContent(driver);
 		return new HomePage(driver);
 	}
